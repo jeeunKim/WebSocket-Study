@@ -1,4 +1,4 @@
-package example.server;
+package OneToOne.server;
 
 import java.net.*;
 
@@ -19,6 +19,7 @@ public class Server {
 
             sender.start();
             receiver.start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

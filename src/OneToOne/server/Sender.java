@@ -1,4 +1,4 @@
-package example.server;
+package OneToOne.server;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -7,23 +7,27 @@ import java.util.Scanner;
 
 public class Sender extends Thread {
     Socket socket;
-    DataOutputStream out;
+    DataOutputStream output;
     String name;
 
     public Sender(Socket socket) {
         this.socket = socket;
         try {
-            out = new DataOutputStream(socket.getOutputStream());
+            output = new DataOutputStream(socket.getOutputStream());
             name = "["+socket.getInetAddress()+":"+socket.getPort()+"]";
-        } catch(Exception e) {}
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void run() {
         Scanner scanner = new Scanner(System.in);
-        while(out!=null) {
+        while(output!=null) {
             try {
-                out.writeUTF(name+scanner.nextLine());
-            } catch(IOException e) {}
+                output.writeUTF(name+scanner.nextLine());
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
         }
     } // run()
 }

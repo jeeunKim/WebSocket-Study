@@ -6,10 +6,12 @@ import java.util.*;
 
 public class TcpIpMultichatServer {
     HashMap clients;
-
+    public static void main(String args[]) {
+        new TcpIpMultichatServer().start();
+    }
     TcpIpMultichatServer() {
-        clients = new HashMap();
-        Collections.synchronizedMap(clients);
+        clients = new HashMap(); //여러명과 채팅하기 위함.
+        Collections.synchronizedMap(clients); // 클라이언트들이 동시에 접속할 수 있으므로 동기화
     }
 
     public void start() {
@@ -21,8 +23,9 @@ public class TcpIpMultichatServer {
             System.out.println("서버가 시작되었습니다");
 
             while(true) {
-                socket = serverSocket.accept();
+                socket = serverSocket.accept(); // 적절한 IP와 PORT로 클라이언트가 들어오면 승인
                 System.out.println("["+socket.getInetAddress()+":"+socket.getPort()+"]"+"에서 접속하였습니다.");
+                //승인된 소켓을 서버 리시버에 전달(별도의 쓰레드)
                 ServerReceiver thread = new ServerReceiver(socket);
                 thread.start();
             }
@@ -42,19 +45,18 @@ public class TcpIpMultichatServer {
         } // while
     } // sendToAll
 
-    public static void main(String args[]) {
-        new TcpIpMultichatServer().start();
-    }
+
     class ServerReceiver extends Thread {
         Socket socket;
         DataInputStream in;
         DataOutputStream out;
 
         ServerReceiver(Socket socket) {
-            this.socket = socket;
+            this.socket = socket; //허용된 소켓이 들어옴
             try {
                 in  = new DataInputStream(socket.getInputStream());
                 out = new DataOutputStream(socket.getOutputStream());
+
             } catch(IOException e) {}
         }
 

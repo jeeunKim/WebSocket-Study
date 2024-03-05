@@ -8,7 +8,7 @@ public class Server {
         Socket socket = null;
 
         try {
-            serverSocket = new ServerSocket(8082);
+            serverSocket = new ServerSocket(8083);
             System.out.println("서버가 준비되었습니다");
 
             socket = serverSocket.accept();
